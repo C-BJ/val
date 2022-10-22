@@ -856,6 +856,7 @@ public struct TypeChecker {
       switch j.kind {
       case .associatedTypeDecl:
         // TODO: Implement me.
+        success = false
         continue
 
       case .associatedValueDecl:
@@ -916,6 +917,12 @@ public struct TypeChecker {
           let candidateType = realize(decl: candidate)
           return canonicalize(type: candidateType) == requirementType
         })
+
+        // TODO: Handle method bundles.
+        if ast[requirement].isBundle {
+          success = false
+          continue
+        }
 
         // TODO: Filter out the candidates with incompatible constraints.
         //
