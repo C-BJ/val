@@ -2071,6 +2071,24 @@ final class TypeCheckerTests: XCTestCase {
     XCTAssertEqual(checker.diagnostics.count, 2)
   }
 
+  func testConformanceWithMethodBundle() throws {
+    let ast = try XCTUnwrap("""
+    trait P {
+      fun f() -> Self { let inout }
+    }
+
+    type A: P {
+      fun f() -> Self {
+        let { A() }
+        inout {}
+      }
+    }
+    """.parse())
+
+    var checker = TypeChecker(ast: ast)
+    XCTAssertTrue(checker.check(module: ast.modules[0]))
+  }
+
   func testConformanceWithAssociatedType() throws {
     let ast = try XCTUnwrap("""
     trait P {
