@@ -5,6 +5,15 @@ public type Bool {
 
 }
 
+public conformance Bool: Sinkable {
+
+  public fun take_value(from source: sink Self) -> Self {
+    set   { value = source.value }
+    inout { value = source.value }
+  }
+
+}
+
 public conformance Bool: Copyable {
 
   public fun copy() -> Self {

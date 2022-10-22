@@ -7,6 +7,15 @@ public type Double {
 
 public conformance Double: ExpressibleByIntegerLiteral {}
 
+public conformance Double: Sinkable {
+
+  public fun take_value(from source: sink Self) -> Self {
+    set   { value = source.value }
+    inout { value = source.value }
+  }
+
+}
+
 public conformance Double: Copyable {
 
   public fun copy() -> Self {
